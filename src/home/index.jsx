@@ -17,7 +17,7 @@ function Home() {
             role="alert"
           >
             <span className="text-xs bg-primary rounded-full text-white px-4 py-1.5 mr-3">New</span>
-            <span className="text-sm font-medium">Tubeguruji.com All new Apps</span>
+            <span className="text-sm font-medium">AutoProcv</span>
             <svg className="ml-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
               <path
                 fillRule="evenodd"
