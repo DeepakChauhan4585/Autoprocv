@@ -1,6 +1,11 @@
+/* src/index.css */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Print */
+
 @media print {
     #no-print {
         display: none;
@@ -20,6 +25,9 @@
     margin: 0mm;
 }
 
+
+/* Editor content lists */
+
 .rsw-ce ul {
     list-style: disc;
     padding-left: 2em;
@@ -30,6 +38,9 @@
     padding-left: 2em;
 }
 
+
+/* Normalize list styles */
+
 ol,
 ul,
 menu {
@@ -37,6 +48,9 @@ menu {
     margin: 0;
     padding: 0;
 }
+
+
+/* Theme tokens */
 
 @layer base {
      :root {

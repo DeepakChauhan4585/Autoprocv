@@ -2,6 +2,12 @@ import { Navigate, Outlet } from 'react-router-dom'
 import { useUser } from '@clerk/clerk-react'
 import Header from './components/custom/Header'
 import { Toaster } from './components/ui/sonner'
+import { BrowserRouter } from "react-router-dom";
+
+<BrowserRouter basename={import.meta.env.DEV ? "/" : "/Resume_Builder"}>
+  {/* Your routes */}
+</BrowserRouter>
+
 
 function App() {
   const { isLoaded, isSignedIn } = useUser() // ✅ removed `user`

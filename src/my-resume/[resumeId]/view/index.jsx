@@ -56,7 +56,7 @@ function ViewResume() {
         <Header />
         <div className="my-10 mx-10 md:mx-20 lg:mx-36">
           <h2 className="text-center text-2xl font-medium">
-            Congrats! Your Ultimate AI Generated Resume is ready!
+            Congrats! AI Generated Resume is ready! Autoprocv !
           </h2>
           <p className="text-center text-gray-400">
             Now you can download or share your resume link.

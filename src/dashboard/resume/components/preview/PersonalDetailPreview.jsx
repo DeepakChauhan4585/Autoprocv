@@ -3,27 +3,33 @@ import { memo } from 'react'
 
 function PersonalDetailPreview({ resumeInfo }) {
   const color = resumeInfo?.themeColor
-  return (
-    <div>
-      <h2 className="font-bold text-xl text-center" style={{ color }}>
-        {resumeInfo?.firstName} {resumeInfo?.lastName}
-      </h2>
-      <h2 className="text-center text-sm font-medium">{resumeInfo?.jobTitle}</h2>
-      <h2 className="text-center font-normal text-xs" style={{ color }}>
-        {resumeInfo?.address}
-      </h2>
+  const jobTitle = String(resumeInfo?.jobTitle ?? '').trim()
+  const address  = String(resumeInfo?.address ?? '').trim()
 
-      <div className="flex justify-between">
-        <h2 className="font-normal text-xs" style={{ color }}>
-          {resumeInfo?.phone}
-        </h2>
-        <h2 className="font-normal text-xs" style={{ color }}>
-          {resumeInfo?.email}
-        </h2>
+  return (
+    <header className="mb-3">
+      <h1 className="font-bold text-xl text-center leading-tight" style={{ color }}>
+        {resumeInfo?.firstName} {resumeInfo?.lastName}
+      </h1>
+
+      {(jobTitle || address) && (
+        <div className="text-center">
+          {jobTitle && <p className="text-sm font-medium">{jobTitle}</p>}
+          {address && (
+            <p className="text-xs" style={{ color }}>
+              {address}
+            </p>
+          )}
+        </div>
+      )}
+
+      <div className="flex justify-between text-xs mt-2">
+        <span style={{ color }}>{resumeInfo?.phone}</span>
+        <span style={{ color }}>{resumeInfo?.email}</span>
       </div>
 
       <hr className="border-[1.5px] my-2" style={{ borderColor: color }} />
-    </div>
+    </header>
   )
 }
 

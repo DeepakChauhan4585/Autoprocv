@@ -1,4 +1,11 @@
-#root {}
+/* src/App.css */
+
+#root {
+    isolation: isolate;
+}
+
+
+/* something non-empty */
 
 .logo {
     height: 6em;

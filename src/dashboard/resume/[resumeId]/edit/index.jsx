@@ -18,27 +18,50 @@ function EditResume() {
   const GetResumeInfo = async () => {
     try {
       const resp = await GlobalApi.GetResumeById(resumeId)
-      // handle both: Strapi => { data: [{ id, attributes:{} }] }
-      // LocalStorage fallback => { data: [{ id, documentId, attributes:{} }] }
+
+      // Strapi usually: { data: { id, attributes:{} } } OR array
       const raw = resp?.data?.data
       const item = Array.isArray(raw) ? raw[0] : raw
+      const attrs = item?.attributes ? item.attributes : (item || {})
 
-      // If backend returns a single object already
-      const attrs = item?.attributes ? item.attributes : item || {}
+      // ---- Normalizations ----
+      // support both spellings and ensure both are present in state
+      const normalizedSummary = attrs?.summery ?? attrs?.summary ?? ''
 
-      // guard: default structure so children don’t crash
+      // some projects use "experience" or "Experience"
+      const experienceArr =
+        Array.isArray(attrs?.experience) ? attrs.experience
+        : Array.isArray(attrs?.Experience) ? attrs.Experience
+        : []
+
+      const educationArr = Array.isArray(attrs?.education) ? attrs.education : []
+      const skillsArr = Array.isArray(attrs?.skills) ? attrs.skills : []
+
       const safe = {
-        themeColor: attrs.themeColor || '#4f46e5',
-        firstName: attrs.firstName || '',
-        lastName: attrs.lastName || '',
-        email: attrs.email || '',
-        phone: attrs.phone || '',
-        summary: attrs.summary || '',
-        Experience: Array.isArray(attrs.Experience) ? attrs.Experience : [],
-        education: Array.isArray(attrs.education) ? attrs.education : [],
-        skills: Array.isArray(attrs.skills) ? attrs.skills : [],
-        // keep resumeId if present
-        resumeId: attrs.resumeId || resumeId,
+        // theme
+        themeColor: attrs?.themeColor || '#4f46e5',
+
+        // personal
+        firstName: attrs?.firstName || '',
+        lastName : attrs?.lastName  || '',
+        email    : attrs?.email     || '',
+        phone    : attrs?.phone     || '',
+        jobTitle : attrs?.jobTitle  || '',          // ✅ keep for print
+        address  : attrs?.address   || '',          // ✅ keep for print
+
+        // summary (both keys so every component sees it)
+        summary : normalizedSummary,
+        summery : normalizedSummary,
+
+        // sections
+        experience: experienceArr,                  // prefer lowercase in state
+        Experience: experienceArr,                  // backward compatibility
+        education : educationArr,
+        skills    : skillsArr,
+
+        // ids
+        id: attrs?.id || item?.id || undefined,
+        resumeId: attrs?.resumeId || resumeId,
       }
 
       setResumeInfo(safe)
@@ -46,9 +69,13 @@ function EditResume() {
       console.error('GetResumeInfo error:', e)
       setResumeInfo({
         themeColor: '#4f46e5',
-        Experience: [],
-        education: [],
-        skills: [],
+        firstName: '', lastName: '',
+        email: '', phone: '',
+        jobTitle: '', address: '',
+        summary: '', summery: '',
+        experience: [], Experience: [],
+        education: [], skills: [],
+        resumeId,
       })
     } finally {
       setLoading(false)
@@ -66,7 +93,7 @@ function EditResume() {
 
   return (
     <ResumeInfoContext.Provider value={{ resumeInfo, setResumeInfo }}>
-      <div className="grid grid-cols-1 md:grid-cols-2 p-10 gap-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 p-4 md:p-10 gap-6 md:gap-10">
         <FormSection />
         <ResumePreview />
       </div>
