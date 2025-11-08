@@ -7,9 +7,10 @@ import { defineConfig } from "vite";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// ✅ Auto base fix (works for both local + GitHub Pages)
 export default defineConfig({
   plugins: [react()],
-  base: "/Resume_Builder/", // 👈 must match GitHub repo name exactly
+  base: process.env.NODE_ENV === "production" ? "/autoprocv/" : "/", 
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
