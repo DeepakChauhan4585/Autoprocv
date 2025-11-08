@@ -17,8 +17,8 @@ if (!PUBLISHABLE_KEY) {
   console.warn("⚠️ Missing VITE_CLERK_PUBLISHABLE_KEY in .env");
 }
 
-// ✅ Detect environment (local vs production)
-const basename = import.meta.env.DEV ? "/" : "/autoprocv";
+// ✅ Detect environment (local vs GitHub Pages)
+const basename = import.meta.env.MODE === "production" ? "/autoprocv" : "/";
 
 // ✅ Define routes
 const router = createBrowserRouter(
@@ -50,7 +50,7 @@ const router = createBrowserRouter(
     },
   ],
   {
-    basename, // ✅ Important: base path for GitHub Pages
+    basename, // 👈 important for GitHub Pages routing
   }
 );
 
